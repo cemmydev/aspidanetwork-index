@@ -1,0 +1,664 @@
+body {
+    margin: 0;
+    padding: 0;
+	overflow: hidden;
+    background-color: #000; /* Black background color */
+    background-image: url('/images/backround_image/spartan_helmet_faded_background.jpg');
+    background-repeat: no-repeat;
+    background-position: center center; /* Center the image */
+    background-size: contain; /* Use contain to see the whole image */
+    background-attachment: fixed; /* The background image does not scroll */
+    min-height: 100vh; /* Minimum height of the viewport */
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    justify-content: space-between; /* Distribute space between content */
+    align-items: center;
+}
+
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    background: linear-gradient(to right, #333, #444, #333);
+    padding: 10px 20px;
+    z-index: 1000;
+    border-top: 3px solid #757575; /* Metallic top line */
+    border-bottom: 3px solid #757575; /* Metallic bottom line */
+}
+
+.button {
+    padding: 10px 20px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    cursor: pointer;
+    margin: 2px 10px; /* Add 2px margin to top and bottom to push away from border */
+	text-decoration: none;
+}
+
+
+#left-button {
+    margin-left: 10px; /* Space from the left edge */
+}
+
+#right-button {
+    margin-right: 10px; /* Space from the right edge */
+}
+
+.server-info {
+    position: relative; /* Position relative for the absolute positioning of the tooltip */
+    color: white;
+    font-size: 18px; /* Font size for the time */
+    font-weight: bold; /* Make the time bold */
+	
+}
+#server-info-title {
+	font-family: 'Acme', sans-serif;
+    font-size: 32px; /* Adjust the font size as needed */
+    /* Add any other styles you want for the title */
+}
+
+.server-info:hover::after {
+    content: attr(title); /* Use the title attribute as the content of the tooltip */
+    position: absolute;
+    bottom: 100%; /* Position the tooltip above the time */
+    left: 50%; /* Start the tooltip in the center */
+    transform: translateX(-50%); /* Center the tooltip */
+    background: #333; /* Background color of the tooltip */
+    color: white; /* Text color of the tooltip */
+    padding: 4px 8px; /* Padding inside the tooltip */
+    border-radius: 4px; /* Optional: rounded corners */
+    white-space: nowrap; /* Prevent the text from wrapping */
+    z-index: 1001; /* Ensure it's above other items */
+}
+
+/* Media queries for responsive adjustments */
+@media (max-width: 768px) {
+    .server-info {
+        font-size: 16px; /* Adjust font size for smaller devices */
+    }
+}
+
+@media (max-width: 480px) {
+    .server-info {
+        font-size: 14px; /* Adjust font size for even smaller devices */
+    }
+}
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+}
+/* Modal Content with gradient and dark brown border */
+.modal-content {
+    margin: auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px; /* Ensure it doesn't get too wide on larger screens */
+    animation: popIn 0.5s ease-out forwards;
+    border-radius: 10px;
+    font-family: 'Open Sans', sans-serif;
+    position: relative;
+    box-sizing: border-box;
+	display: flex;
+    flex-direction: column;
+    align-items: center;	
+}
+.modal-content::before {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: -30px;
+  left: 0;
+  border-style: solid;
+  border-width: 38px 53px 38px 53px; /* Adjust these values to match the actual border widths in your image */
+  border-image: url('/../img/sidebarBox.png') 38 53 38 53 fill stretch;
+}
+
+h2.select-server-header {
+    font-family: 'Amaranth', sans-serif;
+	font-size: 32px;
+}
+#server-info-popup .modal-content {
+    width: 80%; /* Smaller width than the left-popup modal */
+    max-width: 450px; /* Smaller max-width than the left-popup modal */
+	margin-top: 0%;
+}
+@media (max-width: 768px) { /* Adjust this value based on your needs */
+    #server-info-popup .modal-content {
+        margin-top: 0%;
+    }
+}
+.info-line {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 0px; /* Increase space below the Free Gold info line */
+    width: calc(100% - 20px); /* Full width with some padding from the sides */
+	margin-left: 5px;
+}
+.server-button:active {
+    background-color: #546e39; /* Original green when pressed */
+}
+.info-line .material-symbols-outlined {
+    vertical-align: middle; /* Align the symbols vertically in the middle */
+    font-size: 22px; /* Adjust font size as needed */
+    margin-right: 0px; /* Add some spacing to separate symbols from numbers */
+}
+.info-line .total-players-symbols {
+    color: green;
+}
+.server-list {
+    list-style-type: none; /* Removes the list-style dots */
+    padding: 0; /* Resets padding */
+    margin: 0; /* Resets margin */
+    width: 100%; /* Ensures it takes full width of the modal-content */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.server-button {
+	position: relative;
+    background-color: #546e39; /* Green background */
+    color: #fff9eb; /* Light text color for visibility */
+    text-align: center;
+    padding: 9px 20px; /* Adjust padding as needed */
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+    width: 160px; /* Width with spacing from the sides */
+    box-shadow: inset 0 -4px 0 -2px #63a90b, inset 0 4px 0 -2px #cfdcbe; /* Inner shadow effects */
+    border: 1px solid #34220d; /* Border color */
+    display: flex; /* Use flexbox to align items inline */
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+    text-align: center; /* Ensure text is centered */
+    padding: 10px; /* Adjust padding as needed */
+    text-decoration: none; /* Removes underline from text */
+	padding: 9px 20px; /* You might need to increase this */
+    margin: 10px 0;
+}
+.server-button::before {
+    content: '';
+    position: absolute;
+    top: -3px; /* Make the frame thin by reducing the distance from the edge */
+    right: -3px;
+    bottom: -3px;
+    left: -3px;
+    z-index: -1; /* Ensures the frame is behind the button content */
+    border-radius: 5px; /* Match the border-radius of your button if it has rounded corners */
+    background-image: linear-gradient(to bottom,#cba467 5%,#f3e2ae 13%,#efbf7b 32%,#aa8050 48%,#835e35 72%,#ad8a54 93%,#d7b672 100%);
+}
+.server-button .speed-icon {
+    margin-right: 5px;
+}
+
+.server-button:hover {
+    background-color: #699128; /* Darker green on hover */
+}
+
+.action-buttons {
+    display: flex; /* Aligns children in a row */
+    gap: 10px; /* Space between the buttons */
+    justify-content: center; /* Center buttons horizontally */
+    align-items: center; /* Center buttons vertically */
+    margin-top: 20px; /* Space from the top */
+	width: 110px;
+}
+
+}
+/* Ensure it stacks on smaller screens */
+@media (max-width: 768px) {
+    .server-button {
+        width: 160px;
+    }
+	/*.action-buttons {
+		width: 100px;*/
+}
+
+
+@media (max-width: 480px) {
+    .modal-content {
+        width: 95%; /* Almost full width on very small screens */
+        padding: 10px; /* Less padding to allow more space for content */
+    }
+}
+
+/* The Close Button */
+.close {
+    position: absolute;
+    right: 20px; /* Adjust as needed */
+    top: 20px; /* Adjust as needed */
+    color: #aaaaaa;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Slide-in animation */
+@keyframes popIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Progress Bar Container */
+.progress-bar-background {
+    position: relative; /* Allows absolute positioning within the bar */
+    flex-grow: 1;
+    height: 20px;
+    background-color: #5e463a;
+    border-radius: 15px;
+    padding: 3px;
+    overflow: hidden;
+}
+
+/* Dividers for each stage */
+.divider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px; /* Divider thickness */
+    background-color: #ffffff; /* Divider color */
+}
+
+/* Horizontal Bar Fill */
+.progress-bar-fill {
+    width: 0%;
+    height: 100%;
+    border-radius: 12px;
+    background-color: #4caf50;
+    box-shadow: inset 0px -3px 7px rgba(0,0,0,0.2);
+    background-image: linear-gradient(
+      to bottom, 
+      rgba(173, 255, 47, 0.6) 0%, 
+      #4caf50 50%, 
+      rgba(20, 90, 50, 0.9) 100%
+    );
+    animation: fillProgress 3s forwards;
+}
+
+/* Dividers */
+.divider-1 { left: 33%; } /* Approximately one-third */
+.divider-2 { left: 66%; } /* Approximately two-thirds */
+
+/* Stage labels container */
+.stage-labels {
+	margin-top: 10px;
+    display: flex;
+    position: absolute;
+    width: 100%;
+    top: 18px; /* Adjust this value to move the labels down below the bar */
+    justify-content: space-around; /* This will evenly distribute the two labels */
+}
+.h2-info {
+	margin-top: 0px;
+    margin-bottom: -5px;
+	font-size: 20px;
+}
+/* Individual stage labels */
+.stage-label {
+    /* This assumes your dividers are placed at one-third and two-thirds */
+    position: absolute;
+    transform: translateX(-50%); /* Center the label */
+    white-space: nowrap;
+    font-size: 12px; /* Adjust font size as needed */
+}
+
+.stage-label:nth-child(1) {
+    left: 33%; /* Approximately one-third */
+}
+.stage-label:nth-child(2) {
+    left: 66%; /* Approximately two-thirds */
+}
+.progress-bar-and-text {
+	margin-top: 0;
+    display: flex;
+    align-items: center; /* Align items vertically in the center */
+    justify-content: space-between; /* Space between bar and text */
+    width: 95%;
+}
+/* Adjust the width of progress-container if needed to leave space for the progress text */
+.progress-container {
+    flex-grow: 1; /* Allow the bar to take available space */
+    margin-right: 10px; /* Space between the bar and the text */
+	margin-bottom: 5px;
+	position: relative; /* Allows absolute positioning within the bar */
+    width: 100%; /* Full width of the container */
+}
+
+/* Optionally, style the progress text */
+#progress-text {
+    font-size: 18px; /* Keep or adjust the font size */
+    font-weight: bold;
+    color: #5e463a; /* Text color, adjust as needed */
+    padding-left: 10px; /* Space from the progress bar */
+}
+.gold-dollar {
+    color: #ffd700; /* Hex code for gold color */
+    font-size: 24px; /* Adjust the size as needed */
+    vertical-align: middle;
+}
+.header-line {
+    height: 1px; /* The thickness of the line */
+    background-color: #5c403336; /* Brown color for the line */
+    width: calc(100% - 20px); /* Full width minus 10px (5px on each side) */
+    margin: 0 5px; /* Centers the line and adds the 5px space on each side */
+}
+.round-start-time {
+	display: inline-block; /* Allows width and height to be set */
+    width: 24px; /* Set the width of the icon */
+    height: 24px; /* Set the height of the icon */
+    background-image: url('/../img/calendar.png');
+    background-size: cover; /* Cover the span area with the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-position: center; /* Center the image in the span */
+    vertical-align: middle; /* Align with the text */
+	margin-left: -3px;
+}
+.gold-dollar {
+    display: inline-block; /* Allows width and height to be set */
+    width: 24px; /* Set the width of the icon */
+    height: 24px; /* Set the height of the icon */
+    background-image: url('/../img/gold_coin.png'); /* Path to your gold coin image */
+    background-size: cover; /* Cover the span area with the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-position: center; /* Center the image in the span */
+    vertical-align: middle; /* Align with the text */
+	margin-left: -3px;
+}
+/* Tooltip styling */
+.custom-tooltip {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    background-color: #dfe3be;
+    color: #333;
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+    line-height: 1.2;
+    max-width: 300px;
+	border: none;
+	
+}
+
+/* Tooltip arrow styling for left side */
+.custom-tooltip::before {
+    content: ' ';
+    position: absolute;
+    top: 30%; /* Adjust this to change the vertical position of the arrow */
+    right: 100%; /* Moves the arrow to the left side of the tooltip */
+    margin-top: -5px; /* Center the arrow vertically */
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #dfe3be transparent transparent; /* Arrow pointing from the tooltip towards the button */
+}
+.custom-tooltip::after {
+    /* Adjust the position to appear on the left side */
+    left: -5px; /* Move arrow to the left side of the tooltip */
+    top: 50%; /* Center arrow along the height */
+    transform: translateY(-50%) rotate(90deg); /* Adjust rotation to point arrow to the right */
+    /* Adjust border for arrow appearance */
+    border-color: transparent #dfe3be transparent transparent;
+}
+
+/* Responsive adjustments if needed */
+@media (max-width: 768px) {
+    .custom-tooltip {
+        max-width: 200px;
+		font-size: 12px;		/* Example for smaller screens */
+    }
+	
+}
+
+
+
+
+
+
+.bottom-bar {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #333; /* Dark background for better visibility */
+    color: white;
+    padding: -1px 20px;
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center-align the content */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.social-links {
+    display: flex;
+    justify-content: center; /* Center-align the social icons */
+    flex-wrap: wrap; /* Wrap icons to next line if space is insufficient */
+    margin-bottom: 0px; /* Spacing between social icons and copyright text */
+}
+
+.social-links a {
+    color: white;
+    text-decoration: none;
+    margin: 5px 10px; /* Add vertical margin for better spacing when wrapped */
+    font-size: 24px; /* Adjust if needed */
+}
+
+
+
+.copy-text {
+    text-align: center; /* Center-align the copyright text */
+    width: 100%; /* Full width to create a dividing effect */
+    border-top: 1px solid white; /* Dividing line above the text */
+    padding-top: 10px; /* Spacing from the dividing line to the text */
+}
+@media (max-width: 480px) {
+    .social-links a {
+        margin: 5px 5px; /* Reduce spacing on smaller screens */
+    }
+	.copy-text {
+	font-size: 12px;
+	}
+}
+
+
+.svg-container {
+  position: absolute;
+  bottom: 0%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Center SVG vertically in the container */
+}
+svg {
+  font-family: 'Russo One', sans-serif;
+  position: absolute; 
+  width: 100%; height: 100%;
+}
+svg text {
+  text-transform: uppercase;
+  animation: stroke 5s infinite alternate;
+  stroke-width: 2;
+  stroke: url(#metallicGradient); /* Apply the gradient to the stroke */
+  font-size: 140px; /* Default size for the first line */
+}
+
+svg text.small-text {
+  font-size: 70px; /* Smaller font size for the second line */
+}
+
+@keyframes stroke {
+  0% {
+    fill: rgba(72,138,20,0); stroke: url(#metallicGradient);
+    stroke-dashoffset: 25%; stroke-dasharray: 0 50%; stroke-width: 2;
+  }
+  70% {
+    fill: rgba(72,138,20,0); stroke: url(#metallicGradient);
+  }
+  80% {
+    fill: rgba(72,138,20,0); stroke: url(#metallicGradient); stroke-width: 3;
+  }
+  100% {
+    fill: url(#metallicGradient); /* Fill with gradient for metallic effect */
+    stroke: rgba(54,95,160,0);
+    stroke-dashoffset: -25%; stroke-dasharray: 50% 0; stroke-width: 0;
+  }
+}
+@media (max-width: 768px) {
+  .svg-container {
+    align-items: flex-end; /* Align SVG to the bottom of the container */
+    position: absolute;
+	bottom: -20%;
+  }
+
+  /* Optional: Adjust font sizes for smaller screens */
+  svg .main-text {
+    font-size: 100px; /* Smaller size for mobile */
+  }
+  svg .secondary-text {
+    font-size: 50px; /* Adjusted to maintain proportion */
+  }
+}
+
+/* Centering the form itself */
+#couponRedeemForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* Centering the input field */
+#email-input {
+    width: 90%; /* Adjust the width as needed */
+    margin: 10px auto; /* Centers the input horizontally */
+}
+
+/* Centering the submit button */
+#couponRedeemForm .submit {
+    width: auto; /* Allows the button to size according to its content */
+    margin: 10px auto; /* Centers the button horizontally */
+}
+
+/* Centering the messages */
+.messages {
+    width: 90%; /* Adjust the width as needed */
+    margin: 10px auto; /* Centers the message container horizontally */
+}
+
+.webmail-description {
+    text-align: justify; /* Updated from center to justify */
+    margin: 20px 0;
+    font-size: 16px;
+    color: #5e463a; /* Or any color that fits your design */
+    max-width: 80%; /* Or any width that fits your design */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 768px) {
+    .webmail-description {
+        font-size: 13px; /* Adjust the font size for smaller screens */
+    }
+}
+
+/* Style for news modal */
+.news-container {
+    max-height: 300px; /* Adjust the height as needed */
+    overflow-y: auto; /* Enables vertical scrolling */
+    padding: 15px;
+}
+
+.news-item {
+    border-bottom: 1px solid #ccc; /* Add a line to divide news items */
+    padding: 10px 0;
+}
+
+/* Last item should not have a border */
+.news-item:last-child {
+    border-bottom: none;
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+    .news-container {
+        max-height: 200px; /* Adjust the height for mobile devices */
+    }
+}
+/* Style for rules modal, same as news modal */
+.rules-container {
+    max-height: 300px; /* Adjust the height as needed */
+    overflow-y: auto; /* Enables vertical scrolling */
+    padding: 15px;
+}
+
+.rules-item {
+    border-bottom: 1px solid #ccc; /* Add a line to divide rules items */
+    padding: 10px 0;
+}
+
+/* Last item should not have a border */
+.rules-item:last-child {
+    border-bottom: none;
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+    .rules-container {
+        max-height: 200px; /* Adjust the height for mobile devices */
+    }
+}
+/* Shared style for modal containers */
+.network-container, .news-container, .rules-container {
+    max-height: 300px; /* Adjust based on your preference */
+    overflow-y: auto; /* Enable scrolling */
+    padding: 15px;
+}
+
+.network-item, .news-item, .rules-item {
+    border-bottom: 1px solid #ccc; /* Divider */
+    padding: 10px 0;
+}
+
+.network-item:last-child, .news-item:last-child, .rules-item:last-child {
+    border-bottom: none; /* No divider for the last item */
+}
+
+@media (max-width: 768px) {
+    .network-container, .news-container, .rules-container {
+        max-height: 200px; /* Adjust for smaller screens */
+    }
+}
