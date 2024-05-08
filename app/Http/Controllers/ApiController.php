@@ -60,7 +60,6 @@ class ApiController extends Controller
             ['tribe', '!=', '4'],
             ['tribe', '!=', '5']
         ])->get()->count();
-        
         return response()->json(['count' => $result]);
     }
 }
