@@ -11,8 +11,8 @@ class ApiController extends Controller
 {
     //
     public function getServerData(Request $request) {
-        $isFinished = DB::connection($request->serverKey)->table('status')->select('isFinished')->get()->toArray();
-        if($isFinished) return response()->json(['progress' => 100]);
+        $finished = DB::connection($request->serverKey)->table('status')->select('isFinished')->get()->first();
+        if($finished->isFinished) return response()->json(['progress' => 100]);
         $currentTimeStamp = time();
         $config = config($request->serverKey);
         if(isset($config['OPENING']) && isset($config['ROUND_TOTAL'])) {
@@ -55,11 +55,29 @@ class ApiController extends Controller
         $severKey = $request->serverKey;
         if(!$severKey) return response()->json('Unable to connect DB');
         $result=DB::connection($severKey)->table('users')->select('id')->where([
-            [time().' - timestamp', '<', '600'],
             ['tribe', '!=', '0'],
             ['tribe', '!=', '4'],
             ['tribe', '!=', '5']
         ])->get()->count();
-        return response()->json(['count' => $result]);
+        return response()->json(['totalPlayers' => $result]);
+    }
+
+    public function getOnlinePlayers(Request $request) {
+        $serverKey = $request->serverKey;
+        if(!$serverKey) return response()->json('Unable to connect DB');
+        $result = DB::connection($serverKey)->table('users')->select('id')->where([
+            ['timestamp', '', time().' - 600'],
+            ['tribe', '!=', '0'],
+            ['tribe', '!=', '4'],
+            ['tribe', '!=', '5']
+        ])->get()->count();
+        return response()->json(['onlinePlayers' => $result]);
+    }
+
+    public function getDefaultGold(Request $request) {
+        $serverKey = $request->serverKey;
+        if(!$serverKey) return response()->json('Unable to connect DB');
+        $result = config($serverKey)['DEFAULT_GOLD'];
+        return response()->json(['defaultGold' => $result]);
     }
 }

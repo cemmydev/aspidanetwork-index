@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function fetchDefaultGold(serverKey) {
-        fetch(`/get_default_gold.php?serverKey=${encodeURIComponent(serverKey)}`)
+        fetch(`/get-default-gold?serverKey=${encodeURIComponent(serverKey)}`)
             .then(response => response.json())
             .then(data => {
                 if (data.defaultGold !== null) {
@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function fetchGameProgress(serverKey) {
-        fetch(`/get_server_data.php?serverKey=${encodeURIComponent(serverKey)}`)
+        fetch(`/get-server-data?serverKey=${encodeURIComponent(serverKey)}`)
             .then(response => response.json())
             .then(data => {
                 if (data.progress) {
@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 	function fetchRoundStartTime(serverKey) {
-		fetch(`/get_server_data.php?serverKey=${encodeURIComponent(serverKey)}`)
+		fetch(`/get-server-data?serverKey=${encodeURIComponent(serverKey)}`)
 			.then(response => response.json())
 			.then(data => {
 				if (data.startTime) {
@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     function fetchTotalRegisteredPlayers(serverKey) {
-        fetch(`/get_total_players.php?serverKey=${encodeURIComponent(serverKey)}`)
+        fetch(`/get-total-players?serverKey=${encodeURIComponent(serverKey)}`)
             .then(response => response.json())
             .then(data => {
                 console.log("Total players data:", data);
@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function fetchOnlinePlayers(serverKey) {
-        fetch(`/get_online_players.php?serverKey=${encodeURIComponent(serverKey)}`)
+        fetch(`/get-online-players?serverKey=${encodeURIComponent(serverKey)}`)
             .then(response => response.json())
             .then(data => {
                 console.log("Online players data:", data);
